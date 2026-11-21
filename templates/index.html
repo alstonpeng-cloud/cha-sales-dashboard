@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>茶息 · 门店销售数据看板</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">茶</div>
+      <div>
+        <h1>茶息 · 门店销售数据看板</h1>
+        <p>CHA SALES INSIGHT · 数据驱动经营决策</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <label class="range-picker">趋势区间
+        <select id="daysSelect">
+          <option value="7">近 7 天</option>
+          <option value="30" selected>近 30 天</option>
+          <option value="90">近 90 天</option>
+          <option value="180">近 180 天</option>
+        </select>
+      </label>
+      <span class="status" id="dbStatus">检测中…</span>
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <!-- 总览卡片 -->
+    <section class="cards">
+      <article class="card card-accent-1">
+        <div class="card-icon">¥</div>
+        <div class="card-label">总销售额</div>
+        <div class="card-value" id="amountCard">--</div>
+        <div class="card-foot">全部订单累计金额</div>
+      </article>
+      <article class="card card-accent-2">
+        <div class="card-icon">单</div>
+        <div class="card-label">总订单数</div>
+        <div class="card-value" id="orderCard">--</div>
+        <div class="card-foot">累计订单记录</div>
+      </article>
+      <article class="card card-accent-3">
+        <div class="card-icon">店</div>
+        <div class="card-label">营业门店</div>
+        <div class="card-value" id="storeCard">--</div>
+        <div class="card-foot">覆盖城市 <span id="cityCount">--</span> 座</div>
+      </article>
+      <article class="card card-accent-4">
+        <div class="card-icon">杯</div>
+        <div class="card-label">客单价</div>
+        <div class="card-value" id="avgCard">--</div>
+        <div class="card-foot">累计售出 <span id="cupsCard">--</span> 杯</div>
+      </article>
+    </section>
+
+    <!-- 第一行图表 -->
+    <section class="chart-grid grid-2">
+      <div class="panel">
+        <div class="panel-title"><span class="dot"></span>销售趋势 <small id="trendSubtitle">近 30 天</small></div>
+        <div id="trendChart" class="chart chart-lg"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><span class="dot"></span>城市销售分布</div>
+        <div id="regionChart" class="chart chart-lg"></div>
+      </div>
+    </section>
+
+    <!-- 第二行图表 -->
+    <section class="chart-grid grid-2">
+      <div class="panel">
+        <div class="panel-title"><span class="dot"></span>产品销量排行 Top 10</div>
+        <div id="productChart" class="chart"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><span class="dot"></span>门店销售额 Top 10</div>
+        <div id="storeChart" class="chart"></div>
+      </div>
+    </section>
+
+    <!-- 第三行图表 -->
+    <section class="chart-grid grid-3">
+      <div class="panel">
+        <div class="panel-title"><span class="dot"></span>品类销售占比</div>
+        <div id="categoryChart" class="chart chart-sm"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><span class="dot"></span>24 小时订单分布</div>
+        <div id="hourlyChart" class="chart chart-sm"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><span class="dot"></span>工作日 vs 周末</div>
+        <div id="daytypeChart" class="chart chart-sm"></div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      茶息 · 门店销售数据分析可视化系统 &nbsp;|&nbsp; Flask + MySQL + Echarts &nbsp;|&nbsp; 数据为模拟生成，仅用于学习演示
+    </footer>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

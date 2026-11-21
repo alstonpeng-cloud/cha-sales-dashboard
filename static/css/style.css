@@ -1,0 +1,145 @@
+/* 茶息看板 —— 深色东方茶饮风格主题 */
+:root {
+  --bg: #12161a;
+  --bg-soft: #1a2026;
+  --panel: #1d242b;
+  --panel-border: #2b343d;
+  --text: #e8e5df;
+  --text-dim: #98a2ab;
+  --tea-green: #6f9e77;
+  --tea-gold: #c8a15a;
+  --tea-orange: #c87941;
+  --tea-blue: #5e8fa6;
+  --tea-red: #b55c52;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  background: radial-gradient(1200px 600px at 20% -10%, #1c2621 0%, var(--bg) 55%) fixed;
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 24px;
+}
+
+/* 顶部栏 */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 22px 32px;
+  border-bottom: 1px solid var(--panel-border);
+  background: rgba(18, 22, 26, 0.75);
+  backdrop-filter: blur(8px);
+}
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-mark {
+  width: 46px; height: 46px;
+  display: grid; place-items: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--tea-green), #3f6b48);
+  color: #fff; font-size: 24px; font-weight: 700;
+  box-shadow: 0 6px 18px rgba(111, 158, 119, 0.3);
+}
+.brand h1 { font-size: 20px; letter-spacing: 1px; }
+.brand p { font-size: 11px; color: var(--text-dim); letter-spacing: 2px; margin-top: 3px; }
+.topbar-actions { display: flex; align-items: center; gap: 18px; }
+.range-picker { font-size: 13px; color: var(--text-dim); }
+.range-picker select {
+  margin-left: 8px;
+  background: var(--bg-soft);
+  color: var(--text);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 6px 10px;
+  outline: none;
+}
+.status { font-size: 12px; color: var(--text-dim); }
+.status.ok { color: var(--tea-green); }
+.status.bad { color: var(--tea-red); }
+
+/* 主体容器 */
+.dashboard { max-width: 1600px; margin: 0 auto; padding: 24px 32px 0; }
+
+/* 总览卡片 */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 20px;
+}
+.card {
+  position: relative;
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 14px;
+  padding: 20px 22px;
+  min-height: 132px;
+}
+.card::after {
+  content: "";
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px;
+}
+.card-accent-1::after { background: var(--tea-gold); }
+.card-accent-2::after { background: var(--tea-green); }
+.card-accent-3::after { background: var(--tea-blue); }
+.card-accent-4::after { background: var(--tea-orange); }
+.card-icon {
+  position: absolute; right: 18px; top: 16px;
+  width: 38px; height: 38px; border-radius: 10px;
+  display: grid; place-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-dim); font-size: 15px; font-weight: 700;
+}
+.card-label { font-size: 13px; color: var(--text-dim); margin-bottom: 10px; }
+.card-value { font-size: 30px; font-weight: 700; letter-spacing: 0.5px; }
+.card-foot { font-size: 11px; color: var(--text-dim); margin-top: 10px; }
+.card-foot span { color: var(--tea-gold); font-weight: 600; }
+
+/* 图表面板 */
+.chart-grid { display: grid; gap: 18px; margin-bottom: 18px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 14px;
+  padding: 18px 18px 10px;
+}
+.panel-title {
+  font-size: 15px; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 6px;
+}
+.panel-title .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--tea-green);
+  box-shadow: 0 0 8px var(--tea-green);
+}
+.panel-title small { color: var(--text-dim); font-weight: 400; font-size: 11px; margin-left: auto; }
+.chart { width: 100%; height: 340px; }
+.chart-lg { height: 360px; }
+.chart-sm { height: 300px; }
+
+.footer {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 11px;
+  padding: 18px 0 6px;
+  border-top: 1px solid var(--panel-border);
+}
+
+@media (max-width: 1100px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .cards, .grid-2 { grid-template-columns: 1fr; }
+  .dashboard { padding: 18px 16px 0; }
+  .topbar { padding: 18px 16px; }
+}
