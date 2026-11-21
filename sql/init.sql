@@ -1,11 +1,5 @@
--- ============================================================
--- 霸王茶姬门店销售数据分析可视化系统 —— 数据库初始化脚本
--- 建模：最经典的星型模型（2 张维度表 + 1 张事实表）
---   dim_store    门店维度表
---   dim_product  产品维度表
---   fact_order   订单事实表
--- 字符集统一 utf8mb4，避免中文门店名/产品名乱码。
--- ============================================================
+-- 建库建表：门店/产品两张维度表，订单事实表
+-- 统一用 utf8mb4，避免中文乱码
 
 CREATE DATABASE IF NOT EXISTS cha_analysis
   DEFAULT CHARACTER SET utf8mb4
@@ -37,10 +31,7 @@ CREATE TABLE dim_product (
   UNIQUE KEY uk_product_name (product_name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='产品维度表';
 
--- 订单事实表
--- 说明：一行 = 一条订单明细（单品），粒度为「订单 × 产品」。
--- order_id 在此用「日期+随机序号」生成，实际业务中建议改为订单明细id，
--- 并把订单主表与订单明细表拆开，此处为练手项目做简化。
+-- 订单事实表：一行是一条订单明细（订单 × 单品）
 CREATE TABLE fact_order (
   order_id    VARCHAR(64)  PRIMARY KEY COMMENT '订单号',
   order_time  DATETIME     NOT NULL COMMENT '下单时间',

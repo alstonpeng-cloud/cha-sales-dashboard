@@ -1,6 +1,3 @@
-/* 茶息看板 —— Echarts 渲染逻辑
- * 所有数据走 fetch 异步请求后端接口，前端不写死任何业务数据。
- */
 const THEME = ['#6f9e77', '#c8a15a', '#c87941', '#5e8fa6', '#b55c52', '#8b7aa8'];
 
 async function getJSON(url) {
@@ -18,7 +15,7 @@ function setText(id, text) {
   if (el) el.textContent = text;
 }
 
-/* ---------- 总览卡片 ---------- */
+// 总览卡片
 async function initSummary() {
   const data = await getJSON('/api/dashboard/summary');
   setText('amountCard', fmtMoney(data.total_amount));
@@ -28,7 +25,7 @@ async function initSummary() {
   setText('cupsCard', fmtInt(data.total_cups) + ' 杯');
 }
 
-/* ---------- 健康检查 ---------- */
+// 健康检查
 async function initHealth() {
   const el = document.getElementById('dbStatus');
   try {
@@ -41,7 +38,7 @@ async function initHealth() {
   }
 }
 
-/* ---------- 销售趋势折线图 ---------- */
+// 销售趋势折线图
 let trendChart;
 async function renderTrend(days) {
   const list = await getJSON(`/api/dashboard/trend?days=${days}`);
@@ -71,7 +68,7 @@ async function renderTrend(days) {
   }, true);
 }
 
-/* ---------- 城市销售分布 ---------- */
+// 城市销售分布
 function initRegion() {
   const chart = echarts.init(document.getElementById('regionChart'));
   getJSON('/api/dashboard/region').then((list) => {
@@ -92,7 +89,7 @@ function initRegion() {
   return chart;
 }
 
-/* ---------- 横向柱状图通用渲染 ---------- */
+// 横向柱状图
 function renderHorizontalBar(chart, list, nameKey, valueKey, formatter, color) {
   const names = list.map((it) => it[nameKey]).reverse();
   const values = list.map((it) => Number(it[valueKey])).reverse();
@@ -110,7 +107,7 @@ function renderHorizontalBar(chart, list, nameKey, valueKey, formatter, color) {
   }, true);
 }
 
-/* ---------- 品类占比饼图 ---------- */
+// 品类占比饼图
 function initCategory() {
   const chart = echarts.init(document.getElementById('categoryChart'));
   getJSON('/api/dashboard/category').then((list) => {
@@ -130,7 +127,7 @@ function initCategory() {
   return chart;
 }
 
-/* ---------- 24 小时订单分布 ---------- */
+// 24 小时订单分布
 function initHourly() {
   const chart = echarts.init(document.getElementById('hourlyChart'));
   getJSON('/api/dashboard/hourly').then((list) => {
@@ -151,7 +148,7 @@ function initHourly() {
   return chart;
 }
 
-/* ---------- 工作日 vs 周末 ---------- */
+// 工作日 vs 周末
 function initDaytype() {
   const chart = echarts.init(document.getElementById('daytypeChart'));
   getJSON('/api/dashboard/daytype').then((list) => {
@@ -183,7 +180,7 @@ function initDaytype() {
   return chart;
 }
 
-/* ---------- 启动 ---------- */
+// 启动
 window.addEventListener('DOMContentLoaded', () => {
   const charts = [];
 

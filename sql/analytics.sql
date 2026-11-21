@@ -1,8 +1,4 @@
--- ============================================================
--- 常用聚合分析 SQL 合集
--- 对应 Flask 各个 /api/dashboard/* 接口，可直接复制到 MySQL 客户端验证。
--- 面试时可重点讲：星型模型 JOIN、时间维度聚合、复合索引命中。
--- ============================================================
+-- 常用聚合查询，对应各个 /api/dashboard/* 接口
 USE cha_analysis;
 
 -- 1) 总览指标：门店数 / 订单数 / 总销售额 / 客单价
@@ -55,7 +51,7 @@ GROUP BY p.product_name
 ORDER BY total_amount DESC
 LIMIT 10;
 
--- 6) 【增强】门店销售额 Top 10（带城市信息）
+-- 6) 门店销售额 Top 10（带城市信息）
 SELECT
   s.store_name,
   s.city,
@@ -67,7 +63,7 @@ GROUP BY s.store_id, s.store_name, s.city
 ORDER BY total_amount DESC
 LIMIT 10;
 
--- 7) 【增强】工作日 vs 周末对比（WEEKDAY: 0=周一 … 6=周日）
+-- 7) 工作日 vs 周末对比（WEEKDAY: 0=周一 … 6=周日）
 SELECT
   CASE WHEN WEEKDAY(order_time) < 5 THEN '工作日' ELSE '周末' END AS day_type,
   SUM(amount)              AS total_amount,
@@ -76,7 +72,7 @@ SELECT
 FROM fact_order
 GROUP BY day_type;
 
--- 8) 【增强】24 小时时段分布（分析早晚高峰）
+-- 8) 24 小时时段分布
 SELECT
   HOUR(order_time) AS order_hour,
   COUNT(*)         AS order_count,

@@ -1,4 +1,4 @@
-"""项目配置：全部通过环境变量读取，支持 python-dotenv 加载 .env 文件。"""
+"""从环境变量读取配置，支持 python-dotenv 加载 .env。"""
 import os
 
 try:

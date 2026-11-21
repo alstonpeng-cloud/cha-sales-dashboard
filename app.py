@@ -13,7 +13,7 @@ from db import query_all, query_one
 app = Flask(__name__)
 
 
-# ---------- 通用工具 ----------
+# 通用工具
 def convert(value):
     """把 Decimal / date / datetime 转成 jsonify 可序列化的类型。"""
     if isinstance(value, (datetime, date)):
@@ -44,12 +44,12 @@ def failure(message, status=500):
 
 @app.errorhandler(Exception)
 def handle_error(err):
-    """兜底异常处理：接口出错也保持统一 JSON 格式，前端不会拿到 HTML。"""
+    """异常处理：统一返回 JSON。"""
     app.logger.exception("接口异常: %s", err)
     return failure(f"服务器内部错误: {err}", 500)
 
 
-# ---------- 页面 ----------
+# 页面
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -65,7 +65,7 @@ def health():
         return failure(f"数据库连接失败: {err}", 503)
 
 
-# ---------- 核心指标接口 ----------
+# 核心指标
 @app.route("/api/dashboard/summary")
 def summary():
     row = query_one("""
@@ -82,11 +82,7 @@ def summary():
 
 @app.route("/api/dashboard/trend")
 def trend():
-    """近 N 天销售趋势。
-
-    改进点：以事实表中最大订单日期为基准向前取 N 天，
-    而不是用 CURDATE()——这样即便数据是历史归档数据，图表也不会一片空白。
-    """
+    """近 N 天销售趋势。以事实表中最新的订单日期为基准向前取 N 天。"""
     days = request.args.get("days", 30, type=int)
     days = max(1, min(days, 365))
     rows = query_all("""
@@ -149,7 +145,7 @@ def product_top():
     return success(normalize(rows))
 
 
-# ---------- 增强接口 ----------
+# 更多维度
 @app.route("/api/dashboard/store_top")
 def store_top():
     """门店销售额 Top N（带城市信息）。"""
